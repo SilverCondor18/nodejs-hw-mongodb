@@ -8,7 +8,7 @@ export const getAllContactsController = async (req, res) => {
     const {page, perPage} = parsePaginationParams(req.query);
     const {sortBy, sortOrder} = parseSortParams(req.query);
     const filter = parseFilterParams(req.query);
-    const contacts = await getAllContacts({page, perPage, sortBy, sortOrder, filter});
+    const contacts = await getAllContacts({page, perPage, sortBy, sortOrder, filter}, req.user._id);
 
     res.status(200).json({
         status: 200,
@@ -19,7 +19,7 @@ export const getAllContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res) => {
     const { contactId } = req.params;
-    const contact = await getContactById(contactId);
+    const contact = await getContactById(contactId, req.user._id);
     if(contact) {
         res.status(200).json({
             status: 200,
@@ -32,7 +32,7 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContactController = async (req, res) => {
-    const contact = await createContact(req.body);
+    const contact = await createContact(req.body, req.user._id);
 
     res.status(201).json({
         status: 201,
@@ -43,7 +43,7 @@ export const createContactController = async (req, res) => {
 
 export const deleteContactController = async (req, res) => {
     const { contactId } = req.params;
-    const contact = await deleteContactById(contactId);
+    const contact = await deleteContactById(contactId, req.user._id);
     if(contact) {
         res.status(204).send();
         return;
@@ -53,7 +53,7 @@ export const deleteContactController = async (req, res) => {
 
 export const upsertContactController = async (req, res) => {
     const { contactId } = req.params;
-    const result = await updateContact(contactId, req.body, {upsert: true});
+    const result = await updateContact(contactId, req.body, req.user._id, {upsert: true});
     if(result) {
         const status = result.isNew ? 201 : 200;
         res.status(status).json({
@@ -68,7 +68,7 @@ export const upsertContactController = async (req, res) => {
 
 export const patchContactController = async (req, res) => {
     const { contactId } = req.params;
-    const result = await updateContact(contactId, req.body);
+    const result = await updateContact(contactId, req.body, req.user._id);
     if(result) {
         res.status(200).json({
             status: 200,
