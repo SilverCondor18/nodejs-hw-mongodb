@@ -4,6 +4,8 @@ import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
 import router from "./routes/index.js";
 import { notFoundHandler, errorHandler } from "./middlewares/errorHandler.js";
+import cookieParser from "cookie-parser";
+
 
 export function setupServer() {
     const app = express();
@@ -14,6 +16,7 @@ export function setupServer() {
         limit: "100kb"
     }));
     app.use(cors());
+    app.use(cookieParser());
     app.use(
         pino({
             transport: {

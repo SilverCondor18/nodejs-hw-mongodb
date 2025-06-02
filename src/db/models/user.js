@@ -22,4 +22,10 @@ const usersSchema = new Schema(
     }
 );
 
+usersSchema.methods.toJSON = () => {
+    const obj = this.toObject();
+    delete obj.password;
+    return obj;
+};
+
 export const UsersCollection = model('user', usersSchema);
