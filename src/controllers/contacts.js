@@ -35,8 +35,18 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContactController = async (req, res) => {
-    const contact = await createContact(req.body, req.user._id);
+    const photo = req.file;
 
+    let photoUrl;
+    if(photo) {
+        if(getEnvVar("ENABLE_CLOUDINARY") === "true") {
+            photoUrl = await saveFileToCloudinary(photo);
+        }
+        else {
+            photoUrl = await saveFileToUploadDir(photo);
+        }
+    }
+    const contact = await createContact({...req.body, photo: photoUrl }, req.user._id);
     res.status(201).json({
         status: 201,
         message: "Successfully created a contact!",
@@ -56,7 +66,18 @@ export const deleteContactController = async (req, res) => {
 
 export const upsertContactController = async (req, res) => {
     const { contactId } = req.params;
-    const result = await updateContact(contactId, req.body, req.user._id, {upsert: true});
+    const photo = req.file;
+
+    let photoUrl;
+    if(photo) {
+        if(getEnvVar("ENABLE_CLOUDINARY") === "true") {
+            photoUrl = await saveFileToCloudinary(photo);
+        }
+        else {
+            photoUrl = await saveFileToUploadDir(photo);
+        }
+    }
+    const result = await updateContact(contactId, { ...req.body, photo: photoUrl }, req.user._id, {upsert: true});
     if(result) {
         const status = result.isNew ? 201 : 200;
         res.status(status).json({
@@ -75,7 +96,7 @@ export const patchContactController = async (req, res) => {
 
     let photoUrl;
     if(photo) {
-        if(getEnvVar("EMABLE_CLOUDINARY") === "true") {
+        if(getEnvVar("ENABLE_CLOUDINARY") === "true") {
             photoUrl = await saveFileToCloudinary(photo);
         }
         else {
