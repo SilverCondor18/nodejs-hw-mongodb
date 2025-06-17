@@ -15,17 +15,11 @@ router.get('/', ctrlWrapper(getAllContactsController));
 
 router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
 
-//router.post('/', validateBody(createContactSchema), ctrlWrapper(createContactController));
-
 router.post('/', upload.single('photo'), validateBody(createContactSchema), ctrlWrapper(createContactController));
 
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
 
-//router.put('/:contactId', isValidId, validateBody(updateContactsSchema), ctrlWrapper(upsertContactController));
-
 router.put('/:contactId', isValidId, upload.single('photo'), validateBody(updateContactsSchema), ctrlWrapper(upsertContactController));
-
-//router.patch('/:contactId', isValidId, validateBody(updateContactsSchema), ctrlWrapper(patchContactController));
 
 router.patch('/:contactId', isValidId, upload.single('photo'), validateBody(updateContactsSchema), ctrlWrapper(patchContactController));
 
