@@ -16,9 +16,20 @@ servers:
   - url: http://localhost:3000
   - url: https://nodejs-hw-mongodb-lm4y.onrender.com/api/v1
 paths:
+  /contacts:
+    get: 
+      $ref: ../swagger/paths/contacts/get.yaml
+    post:
+      $ref: ../swagger/paths/contacts/post.yaml
   /contacts/{id}:
     get: 
       $ref: ../swagger/paths/contacts/{id}/get.yaml
+    delete: 
+      $ref: ../swagger/paths/contacts/{id}/delete.yaml
+    put: 
+      $ref: ../swagger/paths/contacts/{id}/put.yaml
+    patch: 
+      $ref: ../swagger/paths/contacts/{id}/patch.yaml
 components:
   securitySchemes:
     bearerAuth:
