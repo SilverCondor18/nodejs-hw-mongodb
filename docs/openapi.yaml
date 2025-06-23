@@ -5,8 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description: 
-    This is a documentation of contacts app
+  description: This is a documentation of contacts app
 tags:
   - name: Contacts
     description: Operations with contacts.
@@ -14,21 +13,21 @@ tags:
     description: Auth operations.
 servers:
   - url: http://localhost:3000
-  - url: https://nodejs-hw-mongodb-lm4y.onrender.com/api/v1
+  - url: https://nodejs-hw-mongodb-lm4y.onrender.com
 paths:
   /contacts:
-    get: 
+    get:
       $ref: ../swagger/paths/contacts/get.yaml
     post:
       $ref: ../swagger/paths/contacts/post.yaml
   /contacts/{id}:
-    get: 
+    get:
       $ref: ../swagger/paths/contacts/{id}/get.yaml
-    delete: 
+    delete:
       $ref: ../swagger/paths/contacts/{id}/delete.yaml
-    put: 
+    put:
       $ref: ../swagger/paths/contacts/{id}/put.yaml
-    patch: 
+    patch:
       $ref: ../swagger/paths/contacts/{id}/patch.yaml
 components:
   securitySchemes:
