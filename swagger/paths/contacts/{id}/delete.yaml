@@ -19,16 +19,5 @@ responses:
       application/json:
         schema:
           type: object
-          required:
-            - status
-            - message
-            - data
-          properties:
-            status:
-              type: integer
-              example: 204
-            message:
-              type: string
-              example: Successfully deleted contact with id 65ca67e7ae7f10c88b598384!
   "401":
     $ref: "../../../components/responses/401.yaml"
